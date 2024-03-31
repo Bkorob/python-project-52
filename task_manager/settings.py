@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "task_manager",
     'django_bootstrap5',
+    "task_manager.users",
 ]
 
 MIDDLEWARE = [
@@ -84,13 +85,12 @@ WSGI_APPLICATION = "task_manager.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv(
-            'DATABASE_URL',
-        ),
-        conn_max_age=600
-    )
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
 }
+
 
 # SQLITE_SETTINGS = {
 #     'ENGINE': 'django.db.backends.sqlite3',
@@ -100,13 +100,17 @@ DATABASES = {
 # if os.getenv('DB_ENGINE') == 'SQLite':
 #     DATABASES['default'] = SQLITE_SETTINGS
 
-
+# ДЛЯ деплоя(for deploy)
 # {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
+#     'default': dj_database_url.config(
+#         default=os.getenv(
+#             'DATABASE_URL',
+#         ),
+#         conn_max_age=600
+#     )
 # }
+
+
 
 
 # Password validation
