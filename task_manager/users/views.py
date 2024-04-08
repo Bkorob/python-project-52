@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.utils.translation import gettext_lazy as _
 from django.contrib.messages.views import SuccessMessageMixin
 from task_manager.mixins import (
@@ -21,7 +21,6 @@ class UsersListView(View):
 
 class UpdateUserView(MyLoginRequiredMixin, SelfCheckUserMixin,
                      SuccessMessageMixin, UpdateView):
-    
     template_name = 'form.html'
     model = CustomUser
     form_class = CustomUserUpdateForm

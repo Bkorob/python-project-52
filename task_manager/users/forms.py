@@ -4,8 +4,8 @@ from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
 
-    def init(self, *args, **kwargs):
-        super().init(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.fields['last_name'].required = True
         self.fields['first_name'].requred = True
 
@@ -16,7 +16,7 @@ class CustomUserCreationForm(UserCreationForm):
                   ]
         
 
-class CustomUserUpdateForm(UserCreationForm):
+class CustomUserUpdateForm(CustomUserCreationForm):
 
     def clean_username(self):
         return self.cleaned_data.get("username")

@@ -1,37 +1,107 @@
 from django.test import TestCase
-from django.urls import reverse
-from .models import CustomUser
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
+from .models import CustomUser as User
 
-class CustomUserCRUDTest(TestCase):
+
+class UserCrudTestCase(TestCase):
+
+    fixtures = ["users"]
+
     def setUp(self):
-        self.test_model = CustomUser.objects.create(
-            first_name='TestFirst_name', 
-            last_name = 'TestLast_name',
-            username = 'TestUser_name',
-        )
-    def test_create(self):
+        self.users = User.objects.all()
+        self.test_users = {
+            "username": "T1",
+            "first_name": "F1",
+            "last_name": "L1",
+            "password1": "123",
+            "password2": "123"
+        }
+
+    def test_create_user(self):
+
+        response = self.client.get(reverse_lazy('user_create'))
+        self.assertContains(response, _('Registration'), status_code=200)
+
         response = self.client.post(
-            reverse('user_create'), {
-                'first_name': 'TestFirst_n', 
-                'last_name': 'TestLast_n',
-                'username': 'TestUser_n',
-            }
+            reverse_lazy('user_create'),
+            self.test_users,
+            follow=True
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(CustomUser.objects.filter(first_name='TestFirst_n').exists())
+        self.assertContains(response, _('User is created successfully'), status_code=200)
+        self.assertTrue(
+            User.objects.filter(username=self.test_users["username"]).exists()
+        )
 
-    def test_read(self):
-        response = self.client.get(reverse('detail_url', kwargs={'pk': self.your_model.pk}))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, self.your_model.name)
+        response = self.client.post(
+            reverse_lazy('user_create'),
+            self.test_users,
+            follow=True
+        )
+        self.assertContains(
+            response,
+            _('A user with that username already exists.'),
+            status_code=200
+        )
 
-    def test_update(self):
-        response = self.client.post(reverse('update_url', kwargs={'pk': self.your_model.pk}), {'name': 'Updated Test Name', 'description': 'Updated Test Description'})
-        self.assertEqual(response.status_code, 200)
-        self.your_model.refresh_from_db()
-        self.assertEqual(self.your_model.name, 'Updated Test Name')
+    def test_update_another_user(self):
 
-    def test_delete(self):
-        response = self.client.post(reverse('delete_url', kwargs={'pk': self.your_model.pk}))
-        self.assertEqual(response.status_code, 200)
-        self.assertFalse(YourModel.objects.filter(pk=self.your_model.pk).exists())
+        user1 = self.users[0]
+        user2 = self.users[1]
+        request_url = reverse_lazy('user_update', kwargs={'pk': user1.pk})
+
+        self.client.force_login(user2)
+        response = self.client.get(request_url, follow=True)
+        self.assertContains(
+            response,
+            _('You have no rights to change another user.'),
+            status_code=200
+        )
+
+    def test_update_user_successfully(self):
+
+        user2 = self.users[1]
+        self.client.force_login(user2)
+        request_url = reverse_lazy('user_update', kwargs={'pk': user2.pk})
+        response = self.client.post(
+            request_url,
+            {
+                'username': user2.username,
+                'first_name': 'changed',
+                'last_name': user2.last_name,
+                'password1': user2.password,
+                'password2': user2.password,
+            },
+            follow=True
+        )
+        self.assertContains(response, _('User is successfully updated'), status_code=200)
+        self.assertTrue(
+            User.objects.filter(first_name='changed').exists()
+        )
+
+    def test_delete_another_user(self):
+
+        user1 = self.users[0]
+        user2 = self.users[1]
+        request_url = reverse_lazy('user_delete', kwargs={'pk': user1.pk})
+        self.client.force_login(user2)
+        response = self.client.post(request_url, {}, follow=True)
+        self.assertContains(
+            response,
+            _('You have no rights to delete another user.'),
+            status_code=200
+        )
+
+    def test_delete_user_successfully(self):
+
+        user1 = self.users[0]
+        request_url = reverse_lazy('user_delete', kwargs={'pk': user1.pk})
+        self.client.force_login(user1)
+        response = self.client.post(request_url, {}, follow=True)
+        self.assertContains(response, _('User is successfully deleted'), status_code=200)
+
+    def test_get_all_users(self):
+
+        response = self.client.get(reverse_lazy('users'))
+        for user in self.users:
+            self.assertContains(response, user.username)
