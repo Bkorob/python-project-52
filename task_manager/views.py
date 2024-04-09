@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 from django.utils.translation import gettext_lazy as _
@@ -9,6 +9,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 
 class HomeView(View):
+
     def get(self, request, *args, **kwargs):
         return render(request, 'home.html')
 
@@ -25,10 +26,7 @@ class UserLoginView(SuccessMessageMixin, LoginView):
 
 
 class UserLogoutView(LogoutView):
-   
-    next_page = reverse_lazy('home')
-    # template_name = 'home.html'
-    
+
     def dispatch(self, request, *args, **kwargs):
         messages.info(request, _('You are logged out'))
         return super().dispatch(request, *args, **kwargs)

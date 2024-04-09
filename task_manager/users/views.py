@@ -12,12 +12,13 @@ from task_manager.mixins import (
 from .models import CustomUser
 from .forms import CustomUserCreationForm, CustomUserUpdateForm
 
-# Create your views here.
+
 class UsersListView(View):
 
     def get(self, request, *args, **kwargs):
         users = CustomUser.objects.all()
         return render(request, 'users/index.html', {'users': users})
+
 
 class UpdateUserView(MyLoginRequiredMixin, SelfCheckUserMixin,
                      SuccessMessageMixin, UpdateView):
@@ -35,7 +36,7 @@ class UpdateUserView(MyLoginRequiredMixin, SelfCheckUserMixin,
 
 
 class CreateUserView(SuccessMessageMixin, CreateView):
-    
+
     model = CustomUser
     form_class = CustomUserCreationForm
     template_name = 'form.html'
@@ -50,7 +51,7 @@ class CreateUserView(SuccessMessageMixin, CreateView):
 class DeleteUserView(MyLoginRequiredMixin, SelfCheckUserMixin,
                      CanDeleteProtectedEntityMixin,
                      SuccessMessageMixin, DeleteView):
-    
+
     template_name = 'delete.html'
     model = CustomUser
     success_url = reverse_lazy('users')
