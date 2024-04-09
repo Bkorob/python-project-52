@@ -1,1 +1,28 @@
-# from django.shortcuts import render
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.utils.translation import gettext_lazy as _
+from task_manager.mixins import MyLoginRequiredMixin
+from .models import Status
+from django.contrib.messages.views import SuccessMessageMixin
+from .forms import StatusForm
+
+class ListStatusView(MyLoginRequiredMixin, View):
+    template = 'statuses/index.html'
+
+    def get(self, request, *args, **kwargs):
+        statuses = Status.objects.all()
+        return render(request, self.template, {"statuses": statuses})
+    
+
+class CreateStatusView(MyLoginRequiredMixin, SuccessMessageMixin, CreateView):
+    template_name = 'form.html'
+    model = Status
+    form_class = StatusForm
+    success_url = reverse_lazy('status_list')
+    success_message = _('Status is successfully created')
+    extra_context = {
+        'header': _('Create status'),
+        'button_text': _('Create'),
+    }
