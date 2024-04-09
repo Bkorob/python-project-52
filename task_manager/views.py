@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 
@@ -24,7 +24,7 @@ class UserLoginView(SuccessMessageMixin, LoginView):
     success_message = _('You are logged in')
 
 
-class UserLogoutView(View):
+class UserLogoutView(LogoutView):
     def get(self, request, *args, **kwargs):
         messages.info(request, _('You are logged out'))
         return redirect(reverse_lazy('home'))
