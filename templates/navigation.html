@@ -24,9 +24,15 @@
               <li class="nav-item">
                   <a class="nav-link" href="{% url 'home' %}">{% trans 'Tasks' %}</a>
               </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="{% url 'logout' %}">{% trans 'Log Out' %}</a>
-              </li>
+              <li>
+              <form action="{% url 'logout' %}" method="post" class="form mb-0">
+                {% csrf_token %}
+               
+                {% translate 'logout'|capfirst as button_name %}
+               
+                {% bootstrap_button button_type="submit" content=button_name button_class="btn-link nav-link" %}
+               </form>
+               </li>
             </ul>
            {% else %}
             <ul class="navbar-nav">
