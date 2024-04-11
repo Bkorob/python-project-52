@@ -3,7 +3,6 @@ from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django.utils.translation import gettext_lazy as _
 from django.contrib.messages.views import SuccessMessageMixin
 from django_filters.views import FilterView
-
 from task_manager.mixins import MyLoginRequiredMixin, DeleteProtectedMixin
 from .models import Task
 from .forms import TaskForm
