@@ -17,11 +17,13 @@ class MyLoginRequiredMixin(LoginRequiredMixin):
         return super().dispatch(request, *args, **kwargs)
 
 
-class SelfCheckUserMixin(UserPassesTestMixin):
+class CheckUserMixin(UserPassesTestMixin):
     permission_message = None
     permission_url = None
 
     def test_func(self):
+        if self.get_object().author == self.request.user:
+            return True
         return self.get_object() == self.request.user
 
     def handle_no_permission(self):
@@ -29,7 +31,7 @@ class SelfCheckUserMixin(UserPassesTestMixin):
         return redirect(self.permission_url)
 
 
-class CanDeleteProtectedEntityMixin:
+class DeleteProtectedMixin:
     protected_message = None
     protected_url = None
 
@@ -41,13 +43,13 @@ class CanDeleteProtectedEntityMixin:
             return redirect(self.protected_url)
 
 
-class AuthorCanDeleteTaskMixin(UserPassesTestMixin):
-    author_check_message = None
-    author_check_url = None
+# class AuthorCanDeleteTaskMixin(UserPassesTestMixin):
+#     author_check_message = None
+#     author_check_url = None
 
-    def test_func(self):
-        return self.get_object().author == self.request.user
+#     def test_func(self):
+#         return self.get_object().author == self.request.user
 
-    def handle_no_permission(self):
-        messages.error(self.request, self.author_check_message)
-        return redirect(self.author_check_url)
+#     def handle_no_permission(self):
+#         messages.error(self.request, self.author_check_message)
+#         return redirect(self.author_check_url)

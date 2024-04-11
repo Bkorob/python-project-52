@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from .models import CustomUser as User
 
 
-class UserCrudTestCase(TestCase):
+class UserCRUDTestCase(TestCase):
 
     fixtures = ["users"]
 
@@ -58,7 +58,7 @@ class UserCrudTestCase(TestCase):
             status_code=200
         )
 
-    def test_update_user_successfully(self):
+    def test_success_update_user(self):
 
         user2 = self.users[1]
         self.client.force_login(user2)
@@ -92,7 +92,7 @@ class UserCrudTestCase(TestCase):
             status_code=200
         )
 
-    def test_delete_user_successfully(self):
+    def test_success_delete_user(self):
 
         user1 = self.users[0]
         request_url = reverse_lazy('user_delete', kwargs={'pk': user1.pk})

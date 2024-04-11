@@ -6,8 +6,8 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.messages.views import SuccessMessageMixin
 from task_manager.mixins import (
     MyLoginRequiredMixin,
-    SelfCheckUserMixin,
-    CanDeleteProtectedEntityMixin,
+    CheckUserMixin,
+    DeleteProtectedMixin,
 )
 from .models import CustomUser
 from .forms import CustomUserCreationForm, CustomUserUpdateForm
@@ -20,7 +20,7 @@ class UsersListView(View):
         return render(request, 'users/index.html', {'users': users})
 
 
-class UpdateUserView(MyLoginRequiredMixin, SelfCheckUserMixin,
+class UpdateUserView(MyLoginRequiredMixin, CheckUserMixin,
                      SuccessMessageMixin, UpdateView):
     template_name = 'form.html'
     model = CustomUser
@@ -48,8 +48,8 @@ class CreateUserView(SuccessMessageMixin, CreateView):
     }
 
 
-class DeleteUserView(MyLoginRequiredMixin, SelfCheckUserMixin,
-                     CanDeleteProtectedEntityMixin,
+class DeleteUserView(MyLoginRequiredMixin, CheckUserMixin,
+                     DeleteProtectedMixin,
                      SuccessMessageMixin, DeleteView):
 
     template_name = 'delete.html'
