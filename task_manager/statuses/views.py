@@ -14,7 +14,7 @@ class ListStatusView(MyLoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         statuses = Status.objects.all()
-        return render(request, self.template, {"statuses": statuses})
+        return render(request, self.template, {"statuses": statuses, 'header': _('Statuses')})
 
 
 class CreateStatusView(MyLoginRequiredMixin, SuccessMessageMixin, CreateView):

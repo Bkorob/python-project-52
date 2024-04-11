@@ -17,7 +17,7 @@ class UsersListView(View):
 
     def get(self, request, *args, **kwargs):
         users = CustomUser.objects.all()
-        return render(request, 'users/index.html', {'users': users})
+        return render(request, 'users/index.html', {'users': users, 'header': _('Users')})
 
 
 class UpdateUserView(MyLoginRequiredMixin, CheckUserMixin,
