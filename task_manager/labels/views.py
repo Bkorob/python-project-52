@@ -1,5 +1,7 @@
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views import View
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.utils.translation import gettext_lazy as _
 from django.contrib.messages.views import SuccessMessageMixin
 from task_manager.mixins import MyLoginRequiredMixin, DeleteProtectedMixin
@@ -7,13 +9,12 @@ from .models import Label
 from .forms import LabelForm
 
 
-class ListLabelView(MyLoginRequiredMixin, ListView):
+class ListLabelView(MyLoginRequiredMixin, View):
     template_name = 'labels/index.html'
-    model = Label
-    context_object_name = 'labels'
-    extra_context = {
-        'header': _('Labels')
-    }
+    
+    def get(self, request, *args, **kwargs):
+        labels = Label.objects.all()
+        return render(request, self.template_name, {"labels": labels, 'header': _('Labels')})
 
 
 class CreateLabelView(MyLoginRequiredMixin, SuccessMessageMixin, CreateView):

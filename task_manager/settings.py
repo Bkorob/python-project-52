@@ -86,32 +86,22 @@ WSGI_APPLICATION = "task_manager.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if DEBUG == True:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
-
-
-# SQLITE_SETTINGS = {
-#     'ENGINE': 'django.db.backends.sqlite3',
-#     'NAME': BASE_DIR / 'db.sqlite3',
-# }
-
-# if os.getenv('DB_ENGINE') == 'SQLite':
-#     DATABASES['default'] = SQLITE_SETTINGS
-
-# ДЛЯ деплоя(for deploy)
-# {
-#     'default': dj_database_url.config(
-#         default=os.getenv(
-#             'DATABASE_URL',
-#         ),
-#         conn_max_age=600
-#     )
-# }
+else:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.getenv(
+                'DATABASE_URL',
+            ),
+            conn_max_age=600
+        )
+    }
 
 
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -120,21 +110,12 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    # },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         'OPTIONS': {
             'min_length': 3,
         },
     },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    # },
 ]
 
 

@@ -13,7 +13,7 @@ class StatusCrudTestCase(TestCase):
         self.users = User.objects.all()
         self.client.force_login(self.users[0])
         self.statuses = Status.objects.all()
-        self.test_statuses = {"name": "Tests_status"}
+        self.test_statuses = {"name": "status4"}
 
     def test_create_status(self):
 

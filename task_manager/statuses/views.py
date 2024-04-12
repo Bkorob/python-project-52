@@ -10,11 +10,11 @@ from .forms import StatusForm
 
 
 class ListStatusView(MyLoginRequiredMixin, View):
-    template = 'statuses/index.html'
+    template_name = 'statuses/index.html'
 
     def get(self, request, *args, **kwargs):
         statuses = Status.objects.all()
-        return render(request, self.template, {"statuses": statuses, 'header': _('Statuses')})
+        return render(request, self.template_name, {"statuses": statuses, 'header': _('Statuses')})
 
 
 class CreateStatusView(MyLoginRequiredMixin, SuccessMessageMixin, CreateView):
