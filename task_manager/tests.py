@@ -3,7 +3,7 @@ from django.shortcuts import reverse
 
 
 class HomePageTest(TestCase):
-    
+
     def setUp(self):
         self.client = Client()
 

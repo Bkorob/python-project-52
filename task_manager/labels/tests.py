@@ -4,8 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from .models import Label
 from task_manager.users.models import CustomUser as User
 
-class LabelsCrudTestCase(TestCase):
 
+class LabelsCrudTestCase(TestCase):
     fixtures = ["users", "labels", "tasks", "statuses"]
 
     def setUp(self):

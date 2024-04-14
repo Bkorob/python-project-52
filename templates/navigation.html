@@ -2,7 +2,7 @@
 {% load django_bootstrap5 %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="{% url 'home' %}">{% trans 'Task Manager' %}</a>
+      <a class="navbar-brand" href="{% url 'home' %}">{% trans 'Task manager' %}</a>
       <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -19,7 +19,7 @@
                   <a class="nav-link" href="{% url 'status_list' %}">{% trans 'Statuses' %}</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="{% url 'home' %}">{% trans 'Labels' %}</a>
+                  <a class="nav-link" href="{% url 'label_list' %}">{% trans 'Labels' %}</a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="{% url 'task_list' %}">{% trans 'Tasks' %}</a>
@@ -28,7 +28,7 @@
               <form action="{% url 'logout' %}" method="post" class="form mb-0">
                 {% csrf_token %}
                
-                {% translate 'logout'|capfirst as button_name %}
+                {% trans 'Exit'|capfirst as button_name %}
                
                 {% bootstrap_button button_type="submit" content=button_name button_class="btn-link nav-link" %}
                </form>
@@ -37,7 +37,7 @@
            {% else %}
             <ul class="navbar-nav">
               <li class="nav-item">
-                  <a class="nav-link" href="{% url 'login' %}">{% trans 'Login' %}</a>
+                  <a class="nav-link" href="{% url 'login' %}">{% trans 'Entrance' %}</a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="{% url 'user_create' %}">{% trans 'Registration' %}</a>

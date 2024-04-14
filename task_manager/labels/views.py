@@ -11,7 +11,7 @@ from .forms import LabelForm
 
 class ListLabelView(MyLoginRequiredMixin, View):
     template_name = 'labels/index.html'
-    
+
     def get(self, request, *args, **kwargs):
         labels = Label.objects.all()
         return render(request, self.template_name, {"labels": labels, 'header': _('Labels')})

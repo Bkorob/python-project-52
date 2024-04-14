@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, UpdateView, DeleteView
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
 from task_manager.mixins import MyLoginRequiredMixin, DeleteProtectedMixin
 from .models import Status
 from django.contrib.messages.views import SuccessMessageMixin
