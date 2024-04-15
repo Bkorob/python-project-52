@@ -25,9 +25,6 @@ selfcheck:
 
 check: selfcheck test-coverage lint
 
-shell:
-	${MANAGE} shell_plus --ipython
-
 dev:
 	${MANAGE} runserver
 
@@ -35,7 +32,7 @@ start:
 	poetry run gunicorn task_manager.wsgi
 
 trans:
-	poetry run django-admin makemessages --ignore="static" --ignore=".env" -l ru
+	poetry run django-admin makemessages -l ru
 
 compile:
 	poetry run django-admin compilemessages

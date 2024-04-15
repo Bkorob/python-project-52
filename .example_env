@@ -1,0 +1,3 @@
+DATABASE_URL=your_database_connection_url
+SECRET_KEY=your_django_secret_key
+ROLLBAR=your_rollbar_access_token
