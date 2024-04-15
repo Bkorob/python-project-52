@@ -31,7 +31,7 @@ ALLOWED_HOSTS = [
     'webserver',
     '127.0.0.1',
     'localhost',
-    'https://python-project-52-z258.onrender.com',
+    'python-project-52-z258.onrender.com',
 ]
 
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'rollbar.contrib.django',
     "task_manager",
     "django_bootstrap5",
     "task_manager.users",
@@ -95,22 +96,22 @@ WSGI_APPLICATION = "task_manager.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-if os.getenv('DATABASE_URL'):
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.getenv(
-                'DATABASE_URL',
-            ),
-            conn_max_age=600
-        )
-    }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+# if os.getenv('DATABASE_URL'):
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.getenv(
+            'DATABASE_URL',
+        ),
+        conn_max_age=600
+    )
+}
+# else:
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.db.backends.sqlite3",
+#             "NAME": BASE_DIR / "db.sqlite3",
+#         }
+#     }
 
 
 AUTH_USER_MODEL = 'users.CustomUser'
