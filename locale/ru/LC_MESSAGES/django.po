@@ -243,7 +243,7 @@ msgstr "Изменить"
 
 #: task_manager/users/views.py:47
 msgid "Register"
-msgstr "Регистрация"
+msgstr "Зарегистрировать"
 
 #: task_manager/users/views.py:61
 msgid "Unable to delete a user because he is in use"
