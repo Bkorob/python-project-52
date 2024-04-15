@@ -65,6 +65,13 @@ MIDDLEWARE = [
     "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
 ]
 
+ROLLBAR = {
+    'access_token': os.getenv('ROLLBAR'),
+    'environment': 'development' if DEBUG else 'production',
+    'code_version': '1.0',
+    'root': BASE_DIR,
+}
+
 ROOT_URLCONF = "task_manager.urls"
 
 TEMPLATES = [
