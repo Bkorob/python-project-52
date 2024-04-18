@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, UpdateView, DeleteView
@@ -7,6 +7,8 @@ from task_manager.mixins import MyLoginRequiredMixin, DeleteProtectedMixin
 from .models import Status
 from django.contrib.messages.views import SuccessMessageMixin
 from .forms import StatusForm
+from django.db.models import ProtectedError
+from django.contrib import messages
 
 
 class ListStatusView(MyLoginRequiredMixin, View):
@@ -53,3 +55,11 @@ class DeleteStatusView(MyLoginRequiredMixin, DeleteProtectedMixin,
         'header': _('Delete status'),
         'button_text': _('Yes, delete'),
     }
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            response = super().delete(request, *args, **kwargs)
+        except ProtectedError:
+            messages.error(request, self.protected_message)
+            response = redirect(self.protected_url)
+        return response
