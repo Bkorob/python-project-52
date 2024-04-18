@@ -37,9 +37,7 @@ class Task(models.Model):
         CustomUser,
         on_delete=models.PROTECT,
         related_name='executor',
-        verbose_name=_('Executor'),
-        null=True,
-        blank=True
+        verbose_name=_('Executor')
     )
     labels = models.ManyToManyField(
         Label,
