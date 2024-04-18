@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, UpdateView, DeleteView
@@ -7,8 +7,6 @@ from task_manager.mixins import MyLoginRequiredMixin, DeleteProtectedMixin
 from .models import Status
 from django.contrib.messages.views import SuccessMessageMixin
 from .forms import StatusForm
-from django.db.models import ProtectedError
-from django.contrib import messages
 
 
 class ListStatusView(MyLoginRequiredMixin, View):
